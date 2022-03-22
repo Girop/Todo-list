@@ -13,7 +13,7 @@ function addNote(e) {
     let note = templateNote.cloneNode(true)
     note.classList.remove("template")
     // Getting value from inpput and clearing it
-    note.children[0].textContent = toDoInput.value
+    note.getElementsByTagName('p')[0].textContent = toDoInput.value
     toDoInput.value = ""
     toDoList.appendChild(note)
 
@@ -28,14 +28,9 @@ function markDone(entry) {
 }
 
 function deleteNote(entry) {
-    for (let i = 1; i != -1; i--) {
-        entry.style.opacity = i / 10
-    }
-
-    setTimeout(() => {
-        entry.remove()
-        save()
-    }, 1000)
+    entry.classList.remove('show')
+    entry.children[0].classList.remove('show')
+    entry.classList.remove('show')
 }
 
 function filterNotes(button) {
@@ -56,7 +51,6 @@ function filterNotes(button) {
 }
 
 function save(){
-    console.log('saving')
     localStorage.setItem('notes',toDoList.innerHTML)
 }
 
@@ -72,4 +66,4 @@ toDoInput.addEventListener("keydown", addNote)
 window.onload = load
 
 // smooth list deletion
-// fix filters 
+// drag and drop lists
