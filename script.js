@@ -13,9 +13,12 @@ function addNote(e) {
     let note = templateNote.cloneNode(true)
     note.classList.remove("template")
     // Getting value from inpput and clearing it
-    note.getElementsByTagName('p')[0].textContent = toDoInput.value
+    note.getElementsByTagName("p")[0].textContent = toDoInput.value
     toDoInput.value = ""
     toDoList.appendChild(note)
+    setTimeout(()=>{
+        note.children[0].classList.add('show')
+    },15)
 
     save()
 }
@@ -23,14 +26,21 @@ function addNote(e) {
 function markDone(entry) {
     entry.classList.toggle("is-completed")
     entry.classList.toggle("unfinshed")
-
     save()
 }
 
 function deleteNote(entry) {
-    entry.classList.remove('show')
-    entry.children[0].classList.remove('show')
-    entry.classList.remove('show')
+    
+    entry.classList.remove("show")
+    entry.children[0].classList.remove("show")
+    entry.style.bottomMargin = '-15px'
+    
+    // -80px to cover upper 
+    setTimeout(()=>{
+        entry.remove()
+        save()
+    },1500)
+
 }
 
 function filterNotes(button) {
@@ -43,27 +53,28 @@ function filterNotes(button) {
     let allNotes = toDoList.children
     for (let i = 1; i < allNotes.length; i++) {
         if (!allNotes[i].classList.contains(button.value)) {
-            allNotes[i].style.display = 'none'
+            allNotes[i].style.display = "none"
         } else {
-            allNotes[i].style.display = 'flex'
+            allNotes[i].style.display = "flex"
         }
     }
 }
 
-function save(){
-    localStorage.setItem('notes',toDoList.innerHTML)
+function save() {
+    localStorage.setItem("notes", toDoList.innerHTML)
 }
 
-function load(){
-    let saved = localStorage.getItem('notes')
-    if(saved){
+function load() {
+    let saved = localStorage.getItem("notes")
+    if (saved) {
         toDoList.innerHTML = saved
-    }    
+    }
 }
 
 // Event listeners
 toDoInput.addEventListener("keydown", addNote)
 window.onload = load
 
-// smooth list deletion
+
+// smooth deletion 
 // drag and drop lists
